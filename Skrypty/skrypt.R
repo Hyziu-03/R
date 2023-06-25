@@ -40,7 +40,9 @@ suma <- sum(y)
 dlugosc <- length(y)
 suma / dlugosc
 
-srednia <- function(v) { sum(v, na.rm = TRUE) / length(v) }
+srednia <- function(v) {
+    sum(v, na.rm = TRUE) / length(v)
+}
 srednia(y)
 
 mean(y) == srednia(y)
@@ -68,15 +70,19 @@ b == 80
 
 print("Hello world")
 
-ile_wartosci <- function(arg) { sum(arg <= 50, na.rm = TRUE) }
+ile_wartosci <- function(arg) {
+    sum(arg <= 50, na.rm = TRUE)
+}
 ile_wartosci(b)
 
-suma_wektora <- function(wektor) { sum(wektor > 50, na.rm = TRUE) }
+suma_wektora <- function(wektor) {
+    sum(wektor > 50, na.rm = TRUE)
+}
 suma_wektora(b)
 
-sekwencja <- seq(from=10, to=99, by=1)
+sekwencja <- seq(from = 10, to = 99, by = 1)
 
-d <- rnorm(100000, mean = 0, sd=10)
+d <- rnorm(100000, mean = 0, sd = 10)
 hist(d)
 
 # Macierze i ramki
@@ -87,16 +93,18 @@ f <- matrix(1:100, ncol = 8)
 f
 g <- matrix(5:8, ncol = 2)
 g
-g + 2 
-g[1, 1] 
+g + 2
+g[1, 1]
 
 h <- rnorm(16)
-i <- matrix(h, ncol=4)
+i <- matrix(h, ncol = 4)
 i
 
-j <- data.frame(x = c(324, 865, 190), y = c("abc", "def", "ghi"), z = c(TRUE, FALSE, FALSE))
+j <- data.frame(
+    x = c(324, 865, 190),
+    y = c("abc", "def", "ghi"),
+    z = c(TRUE, FALSE, FALSE)
+)
 j
 j$x == j[["x"]]
-j[,2]
-
-
+j[, 2]

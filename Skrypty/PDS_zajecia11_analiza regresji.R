@@ -11,43 +11,47 @@ Cereal_1_cor <- cor(Cereals_1, method = "pearson", use = "complete.obs")
 View(Cereal_1_cor)
 round(Cereal_1_cor, digits = 2)
 
-# zobaczmy sobie jaka zmienna koreluje się najlepiej ze zmienną "rating" (przy okazji zaokrąglimy wyniki):
+# zobaczmy sobie jaka zmienna koreluje się najlepiej ze zmienną "rating"
+# (przy okazji zaokrąglimy wyniki):
 
 rating_cor <-
   round(
-    cor(Cereals_1$rating, 
-        Cereals_1, 	
-        use = "complete.obs"), 
+    cor(Cereals_1$rating,
+        Cereals_1,
+        use = "complete.obs"),
     digits = 2
   )
 rating_cor
 
 # zobaczmy, czy korelacja pomiędzy  rating a sugars jest istotna statystycznie:
 cor.test(
-  Cereals_1$rating, 
-  Cereals$sugars, 
+  Cereals_1$rating,
+  Cereals$sugars,
   use = "complete.obs"
 )
 
 # narysujmy wykres rozrzutu, aby lepiej zobaczyć tę zależność:
 library(ggplot2)
-ggplot(Cereals, aes(sugars, rating)) + 
-    geom_point() + 
+ggplot(Cereals, aes(sugars, rating)) +
+    geom_point() +
     geom_smooth(method = "lm")
 
-# Znajdżmy równanie regresji dla zmiennych rating (zmienna objaśniana) i sugars (zmienna objaśniająca)
+# Znajdżmy równanie regresji dla zmiennych rating (zmienna objaśniana)
+# i sugars (zmienna objaśniająca)
 rating_model <- lm(Cereals$rating ~ Cereals$sugars)
 summary(rating_model)
 
-# Sprawdż w bazie Cereals, czy dla płatków o zawartości cukrów = 5g wartość odżywcza rzeczywiście wynosi 47.6
-Cereals %>% 
-    select(name, sugars, rating) %>% 
+# Sprawdż w bazie Cereals, czy dla płatków o zawartości cukrów = 5g
+# wartość odżywcza rzeczywiście wynosi 47.6
+Cereals %>%
+    select(name, sugars, rating) %>%
     filter(sugars == 5)
 
 # Zobaczmy jeszcze raz jak to wygląda na wykresie:
 ggplot(Cereals, aes(sugars, rating)) + geom_point() + geom_smooth(method = "lm")
 
-# Sprawdźmy, czy błędy predykcji dla naszego modelu są równomiernie rozłożone wokół 0
+# Sprawdźmy, czy błędy predykcji dla naszego modelu są równomiernie
+# rozłożone wokół 0
 plot(rating_model$residuals)
 
 # sprawdźmy, czy błędy mają rozkład normalny
@@ -84,7 +88,9 @@ head(swed017_res)
 # narysujmy chronologię:
 plot(swed017_res)
 
-# władujmy dane gridowe (przez: import dataset, UWAGA: przy importowaniu danych należy ustawić "row names" na "use first column”)
+# władujmy dane gridowe (przez: import dataset, UWAGA:
+# przy importowaniu danych należy ustawić "row names" na
+# "use first column”)
 
 # zobaczmy jak wyglądają dane
 is(tmp_swed017)
@@ -98,11 +104,13 @@ plot(tmp_swed017, t = "l")
 # wyrysujmy dane dla jednego miesiąca, np. maja:
 plot(tmp_swed017[seq(5, 1440, 12)], t = "l")
 
-### uwaga:kod w liniach od 63 do 85 służy do zestawienia powyzszych danych w jedną ramkę "swed017_data_cut" ###
+### uwaga:kod w liniach od 63 do 85 służy do zestawienia powyzszych
+# danych w jedną ramkę "swed017_data_cut" ###
 
-### aby zaoszczędzić czas użyjemy już gotowej (władowujemy plik "swed017_data_cut") ###
+### aby zaoszczędzić czas użyjemy już gotowej (władowujemy plik
+# "swed017_data_cut") ###
 
-############################################################################################
+################################################################
 
 # ramka danych zawierająca dane temperaturowe
 tmp5 <- round(tmp_swed017[seq(5, 1440, 12)], digits = 1)
@@ -118,9 +126,10 @@ View(tmp_swed017)
 View(swed017_res)
 
 # ramka z chronologią do połączenia z ramką tmp_swed017
-swed017_chron <- select(swed017_res, swed017 = SWED01,-samp.depth)
+swed017_chron <- select(swed017_res, swed017 = SWED01, -samp.depth)
 
-# kolumną, którą połączymy obie ramki będzie "year", ale musi być to zmienna, dlatego:
+# kolumną, którą połączymy obie ramki będzie "year", ale musi być to
+# zmienna, dlatego:
 swed017_chron$year <- as.integer(row.names(swed017_chron))
 View(swed017_chron)
 
@@ -130,15 +139,16 @@ View(swed017_chron)
 
 # łączymy ramki danych (tzn. ramkę z chronologią z ramką z danymi tmp.):
 swed017_data <- right_join(swed017_chron, tmp_swed017, by = "year")
-View(swed017_data) 
+View(swed017_data)
 
 # dane zostały przycięte - zaczynają się od roku danych temperaturowych
 
-# przytnijmy dane do roku, w którym kończy się chronologia, aby wszystkie dane miały ten sam zakres czasowy:
+# przytnijmy dane do roku, w którym kończy się chronologia, aby
+# wszystkie dane miały ten sam zakres czasowy:
 swed017_data_cut <- filter(swed017_data, year <= 1978)
 View(swed017_data_cut)
 
-#############################################################################################
+##############################################################
 
 ### 3/4 ZAJĘĆ ###
 View(swed017_data_cut)
@@ -150,9 +160,11 @@ cor(swed017_data_cut$swed017, swed017_data_cut)
 cor.test(swed017_data_cut$swed017, swed017_data_cut$tmp6)
 cor.test(swed017_data_cut$swed017, swed017_data_cut$tmp7)
 
-# sprawdźmy, czy nie uzyskalibyśmy wyższej korelacji dla chronologii ze średnią uzyskaną z tych dwóch miesięcy
+# sprawdźmy, czy nie uzyskalibyśmy wyższej korelacji dla chronologii
+# ze średnią uzyskaną z tych dwóch miesięcy
 
-# tworzymy więc dodatkową zmienną tmp_lato, będącą średnią z okresu czerwiec-lipiec
+# tworzymy więc dodatkową zmienną tmp_lato, będącą średnią z okresu
+# czerwiec-lipiec
 swed017_data_cut <- mutate(swed017_data_cut, tmp_lato = (tmp6 + tmp7) / 2)
 View(swed017_data_cut)
 
@@ -160,9 +172,12 @@ View(swed017_data_cut)
 ggplot(swed017_data_cut, aes(tmp_lato, swed017)) + geom_point()
 
 # wrysujmy linię regresji
-ggplot(swed017_data_cut, aes(tmp_lato, swed017)) + geom_point() + geom_smooth(method = "lm")
+ggplot(swed017_data_cut, aes(tmp_lato, swed017)) +
+  geom_point() +
+  geom_smooth(method = "lm")
 
-# znajdźmy równanie regresji (chronologia - zmienna objaśniana, temperatura lata - zmienna objaśniająca):
+# znajdźmy równanie regresji (chronologia - zmienna objaśniana, temperatura
+# lata - zmienna objaśniająca):
 rating_model_swed017 <-
   lm(swed017_data_cut$swed017 ~ swed017_data_cut$tmp_lato)
 summary(rating_model_swed017)
